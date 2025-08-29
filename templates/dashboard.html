@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="stat">
+  <article class="card"><h3>Users</h3><p><b>{{ total_users }}</b></p></article>
+  <article class="card"><h3>Logs</h3><p><b>{{ total_logs }}</b></p></article>
+  <article class="card"><h3>Model</h3><p>{{ "✅ Loaded" if model_loaded else "❌ Not loaded" }}<br><small>{{ model_path }}</small></p></article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h4>📈 Daily P&L (sum)</h4>
+    <canvas id="pnlChart"></canvas>
+  </article>
+  <article class="card">
+    <h4>📊 Trades per Day</h4>
+    <canvas id="cntChart"></canvas>
+  </article>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <h4>🏆 Top 10 Symbols by Profit</h4>
+    <canvas id="topChart"></canvas>
+  </article>
+  <article class="card">
+    <h4>Recent Trades</h4>
+    <table>
+      <thead><tr><th>Time (UTC)</th><th>Account</th><th>Symbol</th><th>Action</th><th>Lot</th><th>Price</th><th>SL</th><th>TP</th><th>Result</th><th>P/L</th></tr></thead>
+      <tbody>
+        {% for r in recent_logs %}
+        <tr>
+          <td>{{ r.created_at }}</td>
+          <td>{{ r.account_id or "-" }}</td>
+          <td>{{ r.symbol }}</td>
+          <td>{{ r.action }}</td>
+          <td>{{ r.lot }}</td>
+          <td>{{ "%.5f"|format(r.price) if r.price else "-" }}</td>
+          <td>{{ r.sl or "-" }}</td>
+          <td>{{ r.tp or "-" }}</td>
+          <td>{{ r.result or "-" }}</td>
+          <td>{{ "%.2f"|format(r.profit) if r.profit else "-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </article>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('pnlChart').getContext('2d'), {
+  type: 'line',
+  data: { labels: {{ pnl_labels|safe }}, datasets: [{ label: 'P&L', data: {{ pnl_values|safe }} }] },
+  options: { responsive: true, tension: 0.25 }
+});
+new Chart(document.getElementById('cntChart').getContext('2d'), {
+  type: 'bar',
+  data: { labels: {{ cnt_labels|safe }}, datasets: [{ label: 'Trades', data: {{ cnt_values|safe }} }] },
+  options: { responsive: true }
+});
+new Chart(document.getElementById('topChart').getContext('2d'), {
+  type: 'bar',
+  data: { labels: {{ top_labels|safe }}, datasets: [{ label: 'Profit', data: {{ top_values|safe }} }] },
+  options: { indexAxis: 'y', responsive: true }
+});
+</script>
+{% endblock %}

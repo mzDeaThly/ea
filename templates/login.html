@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section style="max-width:420px;margin:auto">
+  <h3>Login</h3>
+  {% if error %}<article class="card" style="color:#ef4444">{{ error }}</article>{% endif %}
+  <form method="post" action="/login">
+    <label>Email <input name="email" type="email" required></label>
+    <label>Password <input name="password" type="password" required></label>
+    <button type="submit">Login</button>
+  </form>
+</section>
+{% endblock %}

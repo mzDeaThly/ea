@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <h2>LINE Alerts (Messaging API Push)</h2>
+  {% if not token_set %}
+    <article class="card">
+      <b>ยังไม่ได้ตั้งค่า LINE_CHANNEL_ACCESS_TOKEN</b><br>
+      ไปที่ Render → Environment → เพิ่มตัวแปร <code>LINE_CHANNEL_ACCESS_TOKEN</code> แล้ว redeploy
+    </article>
+  {% endif %}
+  <details open>
+    <summary>Add Target</summary>
+    <form method="post" action="/admin/line/new">
+      <label>Kind
+        <select name="kind">
+          <option value="user">user</option>
+          <option value="group">group</option>
+        </select>
+      </label>
+      <label>Target ID <input name="target_id" placeholder="userId หรือ groupId" required></label>
+      <label>Label <input name="label" placeholder="ชื่อเล่น/อธิบาย"></label>
+      <button type="submit">Add</button>
+    </form>
+    <p><small>หมายเหตุ: ต้องได้ <code>userId/groupId</code> จาก webhook ของบอทคุณ (หรือจาก dev tools) เพื่อใช้ push ได้</small></p>
+  </details>
+  <table>
+    <thead><tr><th>Kind</th><th>Target ID</th><th>Label</th><th>Enabled</th><th>Created</th></tr></thead>
+    <tbody>
+      {% for t in targets %}
+      <tr>
+        <td>{{ t.kind }}</td>
+        <td><code>{{ t.target_id }}</code></td>
+        <td>{{ t.label or "-" }}</td>
+        <td>{{ "✅" if t.enabled else "❌" }}</td>
+        <td>{{ t.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Recent Logs</h3>
+<table>
+  <thead><tr><th>Time</th><th>Account</th><th>Symbol</th><th>Action</th><th>Lot</th><th>Price</th><th>SL</th><th>TP</th><th>Result</th><th>P/L</th></tr></thead>
+  <tbody>
+    {% for r in logs %}
+    <tr>
+      <td>{{ r.created_at }}</td>
+      <td>{{ r.account_id or "-" }}</td>
+      <td>{{ r.symbol }}</td>
+      <td>{{ r.action }}</td>
+      <td>{{ r.lot }}</td>
+      <td>{{ r.price }}</td>
+      <td>{{ r.sl or "-" }}</td>
+      <td>{{ r.tp or "-" }}</td>
+      <td>{{ r.result or "-" }}</td>
+      <td>{{ r.profit or "-" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

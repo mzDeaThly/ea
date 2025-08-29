@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MT4 AI Agent</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <style>
+    .stat{display:flex;gap:1rem;flex-wrap:wrap}
+    .card{padding:1rem;border-radius:12px;border:1px solid #eee}
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    @media(min-width:980px){.grid{grid-template-columns:1fr 1fr}}
+    code{white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <nav>
+      <ul><li><strong>MT4 AI Agent</strong></li></ul>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/admin/line">LINE Alerts</a></li>
+        <li><a href="/admin/model">Model</a></li>
+        <li><a href="/admin/logs">Logs</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

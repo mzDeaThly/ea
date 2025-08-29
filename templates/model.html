@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <h2>AI Model</h2>
+  <article class="card">
+    <p>Status: {{ "✅ Loaded" if model_loaded else "❌ Not loaded" }}</p>
+    <p>Path: <code>{{ model_path }}</code></p>
+    <p>Last Modified: {{ model_mtime or "-" }}</p>
+    <p>Classes: {{ model_classes or "-" }}</p>
+  </article>
+  <details open>
+    <summary>Upload model.pkl</summary>
+    <form method="post" action="/admin/model/upload" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".pkl" required>
+      <button type="submit">Upload & Reload</button>
+    </form>
+  </details>
+  <form method="post" action="/admin/model/reload" style="margin-top:1rem">
+    <button type="submit">Reload from Disk</button>
+  </form>
+  <p><small>โมเดลต้องเป็น Scikit-learn Pipeline ที่รองรับ <code>.predict</code> และถ้ามี <code>.predict_proba</code> จะใช้คำนวณความมั่นใจ</small></p>
+</section>
+{% endblock %}
