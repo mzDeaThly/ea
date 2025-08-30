@@ -23,15 +23,15 @@ class TradeLog(Base):
     price: Mapped[float] = mapped_column(Float)
     sl: Mapped[float | None] = mapped_column(Float, nullable=True)
     tp: Mapped[float | None] = mapped_column(Float, nullable=True)
-    profit: Mapped[float | None] = mapped_column(Float, nullable=True)  # realized P/L on CLOSE
-    result: Mapped[str | None] = mapped_column(String(64))              # OPEN/CLOSE
+    profit: Mapped[float | None] = mapped_column(Float, nullable=True)
+    result: Mapped[str | None] = mapped_column(String(64))  # OPEN / CLOSE
     created_at: Mapped["DateTime"] = mapped_column(DateTime, server_default=func.now())
 
 class LineTarget(Base):
     __tablename__ = "line_targets"
     id: Mapped[int] = mapped_column(primary_key=True)
-    kind: Mapped[str] = mapped_column(String(16))   # "user" or "group"
-    target_id: Mapped[str] = mapped_column(String(128), index=True)  # userId or groupId
+    kind: Mapped[str] = mapped_column(String(16))   # "user" หรือ "group"
+    target_id: Mapped[str] = mapped_column(String(128), index=True)  # userId / groupId
     label: Mapped[str | None] = mapped_column(String(255))
     enabled: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped["DateTime"] = mapped_column(DateTime, server_default=func.now())
